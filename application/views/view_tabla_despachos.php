@@ -4,7 +4,8 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="shortcut icon" type="image/ico" href="<?php echo base_url('images/pdvsa.ico');?>">
+    <title>Consumos EESS</title>
         
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('DataTables-1.10.4/media/css/jquery.dataTables.css');?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('DataTables-1.10.4/examples/resources/syntax/shCore.css');?>">
@@ -42,7 +43,7 @@ $(document).ready(function() {
                     "search":         "Búsqueda",
                 }
 	} );
-        //setTimeout(function(){ location.reload(); }, 60000);//120000=2min
+        setTimeout(function(){ location.reload(); }, 60000);//120000=2min
 } );
 
 

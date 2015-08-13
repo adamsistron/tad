@@ -121,7 +121,7 @@ $(function () {
             }
         },
         title: {
-            text: 'Velocidad de Despachos',
+            text: 'Ritmo de Despachos',
             margin: 5,
             style: {
                     color: '#1F2B37',
@@ -732,9 +732,10 @@ function explicacion(chart){
 //AJAX DETALLE CHARTS
 function detalle(codigoo){  
 //alert(codigoo);
+var planta= $('#planta').val();
         if(codigoo!=0){
                   $.ajax({
-                          url:"<?php echo base_url('scli/detalle_despacho');?>/"+codigoo,
+                          url:"<?php echo base_url('scli/detalle_despacho');?>/"+codigoo+"/"+planta,
                           type: "POST",
                           data:{codigoo:codigoo},
                           success: function(html) {

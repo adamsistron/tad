@@ -13,6 +13,26 @@ class Consulta_Despachos_Model extends CI_Model {
 
     }
 
+    function general()
+    {
+
+            $db=$this->load->database('scli',TRUE);
+
+            $sql = "SELECT dia_semana, pd, estatus, actual, historico, velocidad, created
+  FROM ds_velocidad_despachos;";
+            
+            $q = $db->query($sql);
+            //print_r($q);die();
+            $data=array();
+		foreach ($q->result_array() as $row){
+			$data[] = $row;
+
+		}
+		$q->free_result();
+		$db->close();
+                //print_r($data);die();
+		return($data);
+    }
     function consultas($opcion='*', $parametro='*')
     {
 

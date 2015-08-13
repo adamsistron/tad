@@ -136,6 +136,52 @@ function verificar_usuario_i($indicador)
 		}                
 		return true;
         }
+       public function datos_pdvsa($textIndicadorPDVSA, $textPassword)
+        {
+           $ds = ldap_connect("167.134.201.179");
+		if($ds)
+		{
+                    $textUsuario=$textIndicadorPDVSA."@pdvsa.com";
+                    
+			ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+			ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
+			$accesoValido=@ldap_bind($ds, $textUsuario, $textPassword);
+			$sr = @ldap_search($ds,"OU=Usuarios,DC=pdvsa,DC=com","uid=$textIndicadorPDVSA");
+       		//capturo el indicador del usuario dentro del servidor de dominio
+        	$entrada = @ldap_first_entry($ds, $sr); 
+			//se extraen los atributos del usuario existentes en el servidor de dominio
+        	$atributos = @ldap_get_attributes($ds,$entrada);
+       		//extracion de datos
+        	$primer_nombre = $atributos['givenName'][0];
+        	$segundo_nombre = $atributos['middleName'][0];
+        	$apellido = $atributos['sn'][0];
+        	$ci = $atributos['pdvsacom-AD-cedula'][0];
+			//$Nom_Comp= $primer_nombre+" "+$segundo_nombre+" "+$apellido;
+			$Nomb_comp=$ci.'  '.$primer_nombre.'  '.$segundo_nombre.'  '.$apellido;
+			
+                        //echo "aqui";die();
+                        //echo $Nomb_comp;die();
+                        $n=strlen($ci);
+                                if($n<9){
+                                    $d=9-$n;
+                                    $img=str_repeat("0", $d).$ci;
+                                    
+                                }
+                        
+                        
+                        $datos_pdvsa = array(
+                       'primer_nombre'  => $primer_nombre,
+                       'segundo_nombre'  => $segundo_nombre,
+                       'apellido'  => $apellido,
+                       'ci'  => $ci,
+                       'img'  => $img                       
+                        );
+                        $this->session->set_userdata('pdvsa', $datos_pdvsa);
+                        
+                        
+			ldap_close($ds);
+		}
+        }
         public function login()
         {
         $user = trim(strtolower($this->input->post('indicador')));
@@ -144,6 +190,8 @@ function verificar_usuario_i($indicador)
         //echo "$user - $pssw";
         
                 $auth_pdvsa=$this->auth_pdvsa($user,$pssw);
+                
+                $this->datos_pdvsa($user,$pssw);
                 //echo $auth_pdvsa; die();
                 //$query_usuario = $this->db->get_where('usuario', array('indicador_usuario' => $user));
                 /***************************************************************************************/
@@ -171,12 +219,18 @@ function verificar_usuario_i($indicador)
                         $rol = explode("|", $row['id_rol']);
                     }
                     
+                    if(!empty($rol)){
+                        $this->view_data['rol'] = $rol;
+                    }
+                    
                      if($id_usuario<>0){
                         $newdata = array(
                        'id_usuario'  => $id_usuario,
                        'indicador_usuario'  => $indicador_usuario,
                        'nombre_usuario'  => $nombre_usuario,
-                       'id_rol'  => $rol
+                       'id_rol'  => $rol,
+                       
+                                
                         );
 
                         if(!$auth_pdvsa){

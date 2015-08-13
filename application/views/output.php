@@ -6,7 +6,13 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script-->
-<?php $rol = $this->session->userdata('id_rol');?>
+<?php 
+$rol = $this->session->userdata('id_rol');
+    $session_data = $this->session->userdata('pdvsa');
+    $img = 'http://ccschu14.pdvsa.com/PHOTOS/'.$session_data['img'].'.jpg';
+    
+    //echo $img;die();
+    ;?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -46,7 +52,7 @@
               <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="<?php echo site_url('')?>">
-                <img  alt="TAD" src="<?php echo base_url('images/pdvsa.png');?>">
+                <img alt="TAD" src="<?php echo base_url('images/pdvsa.png');?>">
             </a>
           </div>
 
@@ -55,7 +61,16 @@
       <ul class="nav navbar-nav">
 <!--        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
         <?php if (in_array("1", $rol)) {?>
-        <li id="scli"><a href="<?php echo site_url('scli/scli_1')?>">SCLi</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SCLi<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            
+            <li id="scli1"><a href="<?php echo site_url('consulta_despachos/general')?>">Despachos General</a></li>
+            <li id="scli2"><a href="<?php echo site_url('scli/scli_1')?>">TM Despachos</a></li>
+            <li id="scli3"><a href="<?php echo site_url('consulta_despachos')?>">SIE-MENA</a></li>
+            
+          </ul>
+        </li>
         <?php }?>
         <?php if (in_array("2", $rol)) {?>
         <li id="sisccombf"><a href="<?php echo site_url('sisccombf/eess')?>">SISCCOMBF</a></li>
@@ -92,8 +107,16 @@
         </li>
         <?php }?>
       </ul>
+
         <ul class="nav navbar-nav navbar-right ">
-            <li><button onclick="logout()" type="button" class="btn btn-danger navbar-btn">Salir(<?php echo $this->session->userdata('indicador_usuario');?>)</button></li>
+            <li>
+                
+                <button onclick="logout()" type="button" class="btn btn-danger navbar-btn">
+                    
+                    <img style="width: 20px; height: 20px" src="<?php echo $img;?>" class="profile-image img-circle">
+                    Salir(<?php echo $this->session->userdata('indicador_usuario');?>)
+                </button>
+            </li>
       </ul>
     </div><!-- /.navbar-collapse -->
            </nav>
@@ -102,10 +125,14 @@
         <?php 
         if(isset($view_name)) {
         $this->load->view($view_name);
+        
+        
         }?>
         
       </div>
 
+      <?php echo $this->session->userdata('menu');?>
+      
     </div><!-- /.container -->
 
 

@@ -356,15 +356,14 @@ public function avance(){
   $db=$this->load->database('scli',TRUE);           
 //echo $planta;die();
   $sql = "SELECT 
-            tx_codigo as cod_sap,
-            detalle_despachos_planta.tx_nombre_1 as nombre_es,
-            count(distinct tx_despacho) as numero
-            FROM 
-            public.detalle_despachos_planta
-            where pd = '$planta'
-            GROUP BY tx_codigo, detalle_despachos_planta.tx_nombre_1
-            order by detalle_despachos_planta.tx_nombre_1 asc";
+a.tx_codigo as cod_sap, a.tx_nombre_1 as nombre_es, COUNT(DISTINCT a.tx_despacho) as numero
+FROM public.detalle_despachos_planta as a 
+WHERE a.pd = '$planta' 
+GROUP BY a.tx_codigo, a.tx_nombre_1";
+  
+  
   //echo $sql;die();
+  
   $query = $db->query($sql);
   $dato=  array();
   $fecha_actual=date("d/m/Y");
@@ -417,26 +416,30 @@ echo"</table><BR>";
 echo "</center>";   
 }
 
-public function detalle_despacho($codigo_despacho){
+public function detalle_despacho($codigo_despacho,$planta){
     
-  //$planta=$this->input->post('planta'); 
-  //$planta="Planta Dist. Yagua";
+
   $db=$this->load->database('scli',TRUE);           
   //$codigo_despacho="0000503124";
+  
+  $planta = str_replace("%20", " ", $planta);
+  
   $sql1 = "SELECT 
   a.tx_despacho as cod_sap_despacho, 
   a.nu_cedula_de_identidad as cedula, 
   a.tx_nombre_2 as nombre_chofer, 
   a.cisterna, 
-  b.serial_modem, 
-  b.sistema, 
+  /*b.serial_modem, 
+  b.sistema,*/
+  'N/P' AS serial_modem,
+  'N/D' AS sistema,
   a.chuto, 
   a.tx_nombre_3 as nombre_combustible, 
   a.nu_volumen_bruto_despachado as volumen, 
   a.fe_salida_llenado as fecha 
-  FROM public.detalle_despachos_planta as a , utc as b
-  WHERE a.tx_codigo = '$codigo_despacho' AND
-  b.placa_chuto = a.chuto
+  FROM public.detalle_despachos_planta as a /*, utc as b*/
+  WHERE a.tx_codigo = '$codigo_despacho' and pd = '$planta'
+      /*AND  b.placa_chuto = a.chuto*/
   ORDER BY fe_salida_llenado asc, cod_sap_despacho asc;";
  
   //ECHO $sql1;DIE();
