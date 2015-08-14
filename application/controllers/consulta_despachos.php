@@ -67,6 +67,8 @@ class Consulta_Despachos extends CI_Controller {
                 $opcion_v = "Placa de Cisterna";
                 case 5:
                 $opcion_v = "Planta de Distribución";
+                case 6:
+                $opcion_v = "Placa Chuto";
                 break;
             }
             

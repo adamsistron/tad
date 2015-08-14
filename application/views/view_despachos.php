@@ -30,10 +30,12 @@ function consulta(){
         $("#resultado").empty();
         $("#cargando").show();
         
-        //alert(parametro);
+        alert(parametro);
         
-        if(parametro==='*'){
-        alert('Favor introduzca un parametro de consulta');
+        
+        
+        if(opcion === '0'){
+        alert('Favor introduzca una opcion/parametro de consulta');
         $("#cargando").hide();
     }else{
     
@@ -72,6 +74,7 @@ function salir(){
                     <option value='2' >Documento Transporte SAP</option>
                     <option value='3' >Cédula de Conductor</option>
                     <option value='4' >Placa Cisterna</option>
+                    <option value='6' >Placa Chuto</option>
                     
                 </select>
             </div>

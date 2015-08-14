@@ -163,14 +163,17 @@ if (empty($opcion)){
             if($opcion==5){
                 $condicion="WHERE UPPER(pd) LIKE '$parametro'";
             }
+            if($opcion==6){
+                $condicion="WHERE UPPER(placa_chuto) LIKE '$parametro'";
+            }
             
             $sql="SELECT 
-                    substr(pd,14) as pd, codigo_sap_despacho, placa_cisterna, 
+                    substr(pd,14) as pd, codigo_sap_despacho, placa_cisterna, placa_chuto, 
                     cedula_conductor, nombre_conductor, rif_cliente, codigo_sap_cliente, 
                     nombre_cliente, volumen_programado, volumen_bruto_despachado, 
-                    estatus_despacho, producto, date(fecha_programada) as fecha_programada, created
+                    estatus_despacho, producto, date(fecha_programada) as fecha_programada, fecha_salida_llenado,  created
                   FROM ds_despachos_sie_mena
-                  $condicion order by fecha_programada DESC
+                  $condicion order by fecha_programada DESC, fecha_salida_llenado DESC
                   ;";
 
             

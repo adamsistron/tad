@@ -32,7 +32,7 @@ $(document).ready(function() {
                 "scrollY": 300,
 		"scrollX": false,
                 "pageLength": 20,
-                "order": [[ 6, "asc" ]],
+                "order": [[ 12, "asc" ]],
                 "language": {
                     "lengthMenu": " _MENU_ registros por página",
                     "zeroRecords": "No se encontrarón registros",
@@ -62,18 +62,19 @@ $(document).ready(function() {
 	<thead>
 		<tr>
 			<th>Planta</th>
+                        <th>Cliente</th>
+                        <th>Estatus Desapacho</th>
+                        <th>Fecha Salida Llenado</th>
+                        <th>Placa Cisterna</th>
+			<th>Placa Chuto</th>                        
 			<th>Documento Transporte</th>
-			<th>Placa Cisterna</th>
 			<th>Cedula Conductor</th>
 			<th>Nombre Conductor</th>
-			<th>Código SAP EESS</th>
-			<th>EESS</th>
+			<th>Código SAP EESS</th>			
 			<th>Volumen Progrmado</th>
 			<th>Volumen Bruto Despachado</th>
-			<th>Estatus Desapacho</th>
 			<th>Producto</th>
-			<th>Fecha</th>
-                     
+			<th>Fecha Programada</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -86,15 +87,17 @@ $(document).ready(function() {
                                 $fila.="
                                 <tr>
                                     <td>".$dato['pd']."</td>
-                                    <td>".$dato['codigo_sap_despacho']."</td>
+                                    <td>".$dato['nombre_cliente']."</td>
+                                    <td>".$dato['estatus_despacho']."</td>
+                                    <td>".$dato['fecha_salida_llenado']."</td>
                                     <td>".$dato['placa_cisterna']."</td>
+                                    <td>".$dato['placa_chuto']."</td>
+                                    <td>".$dato['codigo_sap_despacho']."</td>
                                     <td>".$dato['cedula_conductor']."</td>
                                     <td>".$dato['nombre_conductor']."</td>
-                                    <td>".$dato['codigo_sap_cliente']."</td>
-                                    <td>".$dato['nombre_cliente']."</td>
+                                    <td>".$dato['codigo_sap_cliente']."</td>                                    
                                     <td>".$dato['volumen_programado']."</td>
-                                    <td>".$dato['volumen_bruto_despachado']."</td>
-                                    <td>".$dato['estatus_despacho']."</td>
+                                    <td>".$dato['volumen_bruto_despachado']."</td>                                    
                                     <td>".$dato['producto']."</td>
                                     <td>".$dato['fecha_programada']."</td>
                                 </tr>";
