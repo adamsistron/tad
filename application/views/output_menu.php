@@ -1,46 +1,4 @@
-<!-- Latest compiled and minified CSS -->
-<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"-->
 
-<!-- Optional theme -->
-<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"-->
-
-<!-- Latest compiled and minified JavaScript -->
-<!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script-->
-<?php 
-$rol = $this->session->userdata('id_rol');
-    $session_data = $this->session->userdata('pdvsa');
-    $img = 'http://ccschu14.pdvsa.com/PHOTOS/'.$session_data['img'].'.jpg';
- 
-    ;?>
-
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/ico" href="<?php echo base_url('images/pdvsa.ico');?>">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>TAD | Técnicas de Análisis de Datos</title>
-
-    <!-- Bootstrap -->
-    
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-
-    <![endif]-->
-    <?php
-    if(!isset($view_name)) {
-        $jquery = base_url('js/jquery.min_1.js');
-    echo "<script src='".$jquery."'></script>";
-        }
-        ?>
-  </head>
-  <body>
       <nav class="navbar navbar-default">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
@@ -65,9 +23,10 @@ $rol = $this->session->userdata('id_rol');
           <ul class="dropdown-menu" role="menu">
             
             <li id="scli1"><a href="<?php echo site_url('consulta_despachos/general')?>">Vista General de Despachos</a></li>
+            <li id="scli2"><a href="<?php echo site_url('scli/scli_1')?>">Monitor de Despachos</a></li>
             <li id="scli3"><a href="<?php echo site_url('consulta_despachos')?>">Consulta de Despachos</a></li>
-            <li id="scli2"><a href="<?php echo site_url('scli/scli_1')?>">Monitorización de Despachos</a></li>
-
+            <li id="scli3"><a href="<?php echo site_url('consulta_despachos')?>">SIE-MENA</a></li>
+            
           </ul>
         </li>
         <?php }?>
@@ -119,38 +78,3 @@ $rol = $this->session->userdata('id_rol');
       </ul>
     </div><!-- /.navbar-collapse -->
            </nav>
-
-      <div class="container-fluid" style="height: complex">
-        <?php 
-        if(isset($view_name)) {
-        $this->load->view($view_name);
-        
-        
-        }?>
-        
-      </div>
-
-      
-    </div><!-- /.container -->
-
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <!--<script src="<?php //echo base_url("js/jquery.min.js");?>"></script>-->
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script-->
-    <link href="<?php echo base_url("css/bootstrap.min.css");?>" rel="stylesheet">
-    <script src="<?php echo base_url("js/bootstrap.min.js");?>"></script>
-    
-    
-    
-    <script>
-        <?php if(isset($menu)) {
-            echo "$('#$menu').addClass('active')";
-        }?>
-        
-        function logout(){
-        window.location.href = "<?php echo base_url('sesion/logout');?>";
-    }
-        </script>
-  </body>
-</html>

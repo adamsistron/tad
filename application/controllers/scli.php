@@ -7,7 +7,7 @@ class scli extends CI_Controller {
 		parent::__construct();
 		$this->load->helper(array('form', 'url'));
                 $this->load->library(array('session','table'));
-                //$this->load->model('consulta_despachos_model');
+                $this->load->model('consulta_despachos_model');
                 //$this->load->database();
 		$session_id = $this->session->userdata('indicador_usuario');
 		//$session_id = "adac";
@@ -45,6 +45,8 @@ class scli extends CI_Controller {
             $this->view_data['serie_data'] = json_encode($serie_data, JSON_NUMERIC_CHECK);
             $this->view_data['view_name'] = "view_scli1";
             $this->view_data['menu'] = "scli";
+            $this->view_data['plantas'] = $this->consulta_despachos_model->select_option_plantas();
+            
             //$this->load->view('view_scli1', $this->view_data);
             //$this->output_data['output'] = $this->load->view('view_scli1', $this->view_data);
             $this->load->view('output', $this->view_data);

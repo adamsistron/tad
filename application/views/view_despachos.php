@@ -30,7 +30,7 @@ function consulta(){
         $("#resultado").empty();
         $("#cargando").show();
         
-        alert(parametro);
+        //alert(parametro);
         
         
         
@@ -48,13 +48,64 @@ function consulta(){
             },
             success: function(data) {
                 var data=data.trim();
+                
+                
+                $("#resultado").append(data);
+                //$("#resultado").delay(1000);
+                $("#resultado").show();
                 $("#cargando").hide();
                 
-                $("#resultado").show();
-                $("#resultado").append(data);
+               
 	}});
     }
 }
+
+$(document).ready(function(){
+    $("#parametro").keyup(function(){
+
+    
+    var opcion = parseInt($("#opcion").val());
+    
+    //alert($(this).val().length+'-'+opcion);
+    
+    if(opcion !== 0){
+    if($(this).val().length>=3){
+    $.ajax({
+            type: "POST",
+            url: "<?php  echo base_url('consulta_despachos/autoparametros');?>",
+            data:{
+                opcion:opcion,
+                parametro:$(this).val(),
+    },
+            beforeSend: function(){
+                    $("#parametro").css("background","#FFF url(images/cargando.gif) no-repeat 150px");
+            },
+            success: function(data){
+                    $("#suggesstion-box").show();
+                    $("#suggesstion-box").html(data);
+                    $("#parametro").css("background","#FFF");
+            }
+            });
+            }
+            }else{
+                //alert('Sele');
+                $( "#opcion" ).focus().select();
+            }
+    });
+    
+    $("#opcion").change(function(){
+    $("#parametro").val('');
+    $("#resultado").hide();
+    $("#suggesstion-box").hide();
+    });
+    
+});
+//To select country name
+function selectCountry(val) {
+    $("#parametro").val(val);
+    $("#suggesstion-box").hide();
+}
+
 function salir(){
  window.location.href = "<?php  echo base_url('sesion/logout');?>";
 }
@@ -78,22 +129,21 @@ function salir(){
                     
                 </select>
             </div>
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-success"  onclick="consulta()">
+                <span class="glyphicon glyphicon-search col-sm-6" aria-hidden="true"></span> Buscar</button>
+            </div>
         </div>
         <div class="row" style="margin-top: 0.5em">
             
             <label class="col-lg-2 control-label" for="parametro">Elemento a Buscar</label>
             <div class="col-sm-6">
                 <input type="text" id="parametro" name='parametro'  class="form-control" placeholder="Parametro de búsqueda - Use asterisco * para completar">
+                <div id="suggesstion-box"></div>
             </div>
             
         </div>
-        <div class="row text-right" style="margin-top: 0.5em">
-            <div class="col-sm-8">
-                <button type="button" class="btn btn-success"  onclick="consulta()">
-                <span class="glyphicon glyphicon-search col-sm-6" aria-hidden="true"></span> Buscar</button>
-        </div>
-            </div>
-        <div id="resultado" class="row" style="margin-top: 0.5em; display: none"></div>
+        <div id="resultado" class="row col-md-12" style="margin-top: 0.5em; display: none"></div>
         <br>
         <div id="cargando" class="body" style="display: none">
             <img src="<?php echo base_url('images/cargando.gif');?>">

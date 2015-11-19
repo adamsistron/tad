@@ -106,6 +106,7 @@ function consulta(){
 function salir(){
  window.location.href = "<?php  echo base_url('sesion/logout');?>";
 }
+
 </script>
 </head>
 <body>
@@ -131,8 +132,8 @@ function salir(){
                     <br>
                     <label for="parametro">
                         <p class="label">PARAMETRO</p></label>
-                    <input id="parametro" name="parametro" type="text"/>Use (*) para consultar semenjantes
-                    <br> <br>
+                    <input id="parametro" class="typeahead" name="parametro" type="text"/>Use (*) para consultar semenjantes
+<div id="suggesstion-box"></div>                    <br> <br>
                     <input type="button" value="Consultar" onclick="consulta()"/>
                 
 	</div>
@@ -150,4 +151,30 @@ function salir(){
 </div>
 
 </body>
+<script type="text/javascript">
+//******************************************************************************
+// AJAX call for autocomplete 
+$(document).ready(function(){
+	$("#parametro").keyup(function(){
+		
+        alert($(this).val());
+        $.ajax({
+		type: "POST",
+		url: "readCountry.php",
+		data:'keyword='+$(this).val(),
+		beforeSend: function(){
+			$("#parametro").css("background","#FFF url(LoaderIcon.gif) no-repeat 165px");
+		},
+		success: function(data){
+			$("#suggesstion-box").show();
+			$("#suggesstion-box").html(data);
+			$("#parametro").css("background","#FFF");
+		}
+		});
+	});
+});
+
+//******************************************************************************
+
+</script>
 </html>

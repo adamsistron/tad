@@ -2,21 +2,6 @@
 
 class Sesion extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -  
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in 
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
        function __construct()
 	{
 		parent::__construct();
@@ -39,7 +24,7 @@ class Sesion extends CI_Controller {
 		$this->load->view('login_1.php');
 	}
 
-        //Funcion: Devuelve Arreglo de Información de un usuario en un directorio de activos a traves de su cedula
+//Funcion: Devuelve Arreglo de Información de un usuario en un directorio de activos a traves de su cedula
 //Parametro 1: texto cedula
 //Retorna: Arreglo si ubica al usuario, 0 si no lo encuentra
 function verificar_usuario_c($cedula)
@@ -85,9 +70,7 @@ function verificar_usuario_c($cedula)
 //Parametro 1: texto indicador
 //Retorna: Arreglo si ubica al usuario, 0 si no lo encuentra
 function verificar_usuario_i($indicador)
-{
-	
-	
+{	
 	//global $SERVIDOR_LDAP, $PUERTO_LDAP;
 	
 	$ldap_server = "167.134.201.179";
@@ -234,7 +217,7 @@ function verificar_usuario_i($indicador)
                         );
 
                         if(!$auth_pdvsa){
-                            echo "<script>alert('Indicador y/o Contraseña Incorrecta')</script>";
+                            echo "<meta charset='utf-8'><script>alert('Indicador y/o Contraseña Incorrecta')</script>";
                             redirect('/', 'refresh');
                         }else{
                             $this->session->set_userdata($newdata);
@@ -246,7 +229,7 @@ function verificar_usuario_i($indicador)
                         } 
                          
                      }else{                        
-                        echo "<script>alert('Indicador NO Registrado en el Sistema')</script>";
+                        echo "<meta charset='utf-8'><script>alert('Indicador NO Registrado en el Sistema')</script>";
                         redirect(base_url(''), 'refresh');
                      }
 

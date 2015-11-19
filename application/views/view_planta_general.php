@@ -4,25 +4,20 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/ico" href="<?php echo base_url('images/pdvsa.ico');?>">
-    <title>Consumos EESS</title>
-        
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('DataTables-1.10.4/media/css/jquery.dataTables.css');?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url('DataTables-1.10.4/examples/resources/syntax/shCore.css');?>">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('DataTables-1.10.4/examples/resources/demo.css');?>">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/css/dataTables.responsive.css');?>">
-	<style type="text/css" class="init">
-
-	div.container { max-width: 1200px }
-
-	</style>
-        
+           
         <script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/media/js/jquery.js');?>"></script>
-	<script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/media/js/jquery.dataTables.js');?>"></script>
-	<script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/examples/resources/syntax/shCore.js');?>"></script>
-        <script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/examples/resources/demo.js');?>"></script>
-        <script type="text/javascript" language="javascript" src="<?php echo base_url('/js/dataTables.responsive.js');?>"></script>
-        
+        <script type="text/javascript" language="javascript" class="init">
+
+
+
+$(document).ready(function() {
+	
+        setTimeout(function(){location.reload(); }, 60000);//120000=2min
+} );
+
+
+
+	</script>
 
 </head>
 
@@ -41,6 +36,7 @@
           <th>Ritmo de Despacho</th>
           <th>UTC Actual</th>
           <th>UTC Histórico</th>
+          <th>Estatus</th>
         </tr>
       </thead>
 
@@ -56,20 +52,28 @@
                             $fila="";
                             foreach($resultado as $dato){
                                 $i++;
-                                if($dato['velocidad']<50){
+                                if($dato['velocidad']<=50){
                                     $class = "danger";
+                                    $icon = "remove";
                                 }elseif ($dato['velocidad']>50 && $dato['velocidad']<75) {
                                     $class = "warning";
+                                    $icon = "alert";
                                 }else{
                                     $class = "success";
+                                    $icon = "ok";
                                 }
                                 $fila.="
-                                <tr class=".$class.">
+                                <tr >
                                     <th scope='row'>$i</th>
-                                    <td>".$dato['pd']."</td>
+                                    <td><span class='label label-".$class."'>".$dato['pd']."</span></td>
                                     <td>".$dato['velocidad']."</td>
                                     <td>".$dato['actual']."</td>
                                     <td>".$dato['historico']."</td>
+                                    <td>
+                                    <a class='label label-".$class."' href='#'>
+                                        <span class='glyphicon glyphicon-$icon'></span>
+                                    </a>
+                                    </td>
                                 </tr>";
                         
                         

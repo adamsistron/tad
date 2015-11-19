@@ -13,6 +13,26 @@ class Consulta_Despachos_Model extends CI_Model {
 
     }
 
+    function select_option_plantas()
+    {
+
+            $db=$this->load->database('scli',TRUE);
+
+            $sql = "SELECT pd, velocidad
+  FROM ds_velocidad_despachos;";
+            
+            $q = $db->query($sql);
+            //print_r($q);die();
+            $data=array();
+		foreach ($q->result_array() as $row){
+			$data[] = $row;
+
+		}
+		$q->free_result();
+		$db->close();
+                //print_r($data);die();
+		return($data);
+    }
     function general()
     {
 
@@ -32,6 +52,25 @@ class Consulta_Despachos_Model extends CI_Model {
 		$db->close();
                 //print_r($data);die();
 		return($data);
+    }
+    function autoparametros($opcion, $parametro)
+    {
+
+            $db=$this->load->database('scli',TRUE);
+
+            $sql = "SELECT distinct $opcion
+  FROM ds_despachos_sie_mena
+  WHERE UPPER($opcion) LIKE UPPER('%$parametro%')
+      LIMIT 5
+  ";
+            
+            //echo $sql;die();
+            $q = $db->query($sql);
+            $data = $q->result_array();
+            $q->free_result();
+            $db->close();
+            return($data);
+                
     }
     function consultas($opcion='*', $parametro='*')
     {
@@ -175,8 +214,8 @@ if (empty($opcion)){
                   FROM ds_despachos_sie_mena
                   $condicion order by fecha_programada DESC, fecha_salida_llenado DESC
                   ;";
-
-            
+            $insert = "INSERT INTO store_consulta_despachos(opcion, parametro) VALUES ($opcion, '$parametro');";
+            $db->query($insert);
             //echo $sql;die();
             
             $q = $db->query($sql);

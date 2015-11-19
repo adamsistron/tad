@@ -38,6 +38,45 @@ class Consulta_Despachos extends CI_Controller {
             $this->view_data['menu'] = "scli3";
             $this->load->view('output', $this->view_data);
 	}
+	public function autoparametros()
+	{
+            $opcion=$this->input->post('opcion');
+            $parametro=$this->input->post('parametro');
+            //ECHO $opcion; die();
+            switch ($opcion) {
+                case 1:
+                $opcion_v = "nombre_cliente";
+                break;
+                case 2:
+                $opcion_v = "codigo_sap_despacho";
+                break;
+                case 3:
+                $opcion_v = "cedula_conductor";
+                break;
+                    case 4:
+                $opcion_v = "placa_cisterna";
+                break;
+                        case 5:
+                $opcion_v = "pd";
+                break;
+                            case 6:
+                $opcion_v = "placa_chuto";
+                break;
+            }
+            
+            $data = $this->consulta_despachos_model->autoparametros($opcion_v, $parametro);
+            //print_r($data);die();
+            if(!empty($data)) {
+            echo "<div id='country-list'  class='list-group'>";
+                foreach($data as $column) {
+                    echo "<a href='#' class='list-group-item' onClick='selectCountry(".'"'.$column[$opcion_v].'"'.")'>".$column[$opcion_v]."</a>";
+                }
+            echo "</div>";
+            }
+
+            
+            
+	}
 	public function general()
 	{
             
@@ -77,21 +116,45 @@ class Consulta_Despachos extends CI_Controller {
             $data['parametro']=$parametro;
             
                 $this->load->view('tabla_despachos',$data);
-            /*
-            if($opcion==1){
-                $this->load->view('tabla_1_nombre_es',$data);
-            }
-            if($opcion==2){
-                $this->load->view('tabla_2_documento_transporte',$data);
-            }
-            if($opcion==3){
-                $this->load->view('tabla_3_ci_conductor',$data);
-            }
-            if($opcion==4){
-                $this->load->view('tabla_4_placa_cisterna',$data);
-            }
-            */
+            
 	}
+        //****************************************************************************
+        //****************************************************************************
+        public function stock($tipo){
+		if ($this->tank_auth->is_logged_in()){
+                    $data['estados'] = $this->bookmarks_model->obtenerEstados();
+                    $this->load->view('headers/librerias');
+                    $this->load->view("hc/$tipo", $data);
+                    $this->load->view('hc/footer');
+            }else{
+			echo "No tienes permisos para entrar";
+                        redirect('auth/login');
+		}
+	}
+        
+        public function stockDatosCompare($serie){
+	            
+            $obtenerStockDatosCompare = $this->bookmarks_model->obtenerStockDatosCompare($serie);
+            
+            echo json_encode($obtenerStockDatosCompare, JSON_NUMERIC_CHECK);
+	}
+        
+        public function stockDatosCompareDespachos($condicion){
+	            
+            $obtenerStockDatosCompare = $this->bookmarks_model->obtenerStockDatosCompareDespachos($condicion);
+            
+            echo json_encode($obtenerStockDatosCompare, JSON_NUMERIC_CHECK);
+	}
+
+        
+        public function stockDatosCompareVolumen($condicion){
+	            
+            $obtenerStockDatosCompare = $this->bookmarks_model->obtenerStockDatosCompareVolumen($condicion);
+            
+            echo json_encode($obtenerStockDatosCompare, JSON_NUMERIC_CHECK);
+	}
+        
+       
 }
 
 /* End of file welcome.php */
