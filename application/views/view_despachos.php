@@ -10,116 +10,108 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('DataTables-1.10.4/examples/resources/syntax/shCore.css');?>">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('DataTables-1.10.4/examples/resources/demo.css');?>">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/css/dataTables.responsive.css');?>">
-	<style type="text/css" class="init">
 
-	div.container { max-width: 1200px }
-
-	</style>
         
         <script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/media/js/jquery.js');?>"></script>
 	<script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/media/js/jquery.dataTables.js');?>"></script>
 	<script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/examples/resources/syntax/shCore.js');?>"></script>
-        <script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/examples/resources/demo.js');?>"></script>
+        <!--<script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/examples/resources/demo.js');?>"></script>-->
         <script type="text/javascript" language="javascript" src="<?php echo base_url('/js/dataTables.responsive.js');?>"></script>
        
         <script type="text/javascript">
 
-function consulta(){
-	var opcion = $("#opcion").val();
-	var parametro = $("#parametro").val();
-        $("#resultado").empty();
-        $("#cargando").show();
-        
-        //alert(parametro);
-        
-        
-        
-        if(opcion === '0'){
-        alert('Favor introduzca una opcion/parametro de consulta');
-        $("#cargando").hide();
-    }else{
-    
-    
-    $.ajax({
-            url:"<?php echo base_url('consulta_despachos/consulta_despachos_opcion');?>",
-            type: "POST",
-            data:{
-                opcion:opcion,parametro:parametro
-            },
-            success: function(data) {
-                var data=data.trim();
-                
-                
-                $("#resultado").append(data);
-                //$("#resultado").delay(1000);
-                $("#resultado").show();
-                $("#cargando").hide();
-                
-               
-	}});
-    }
-}
-
 $(document).ready(function(){
-    $("#parametro").keyup(function(){
+    
+    //**************************AUTOCOMPLETAR
+$("#parametro").keyup(function(){
 
-    
-    var opcion = parseInt($("#opcion").val());
-    
-    //alert($(this).val().length+'-'+opcion);
-    
-    if(opcion !== 0){
-    if($(this).val().length>=3){
-    $.ajax({
-            type: "POST",
-            url: "<?php  echo base_url('consulta_despachos/autoparametros');?>",
-            data:{
-                opcion:opcion,
-                parametro:$(this).val(),
+var opcion = parseInt($("#opcion").val());
+if(opcion !== 0){
+if($(this).val().length>=1){
+$.ajax({
+    type: "POST",
+    url: "<?php  echo base_url('consulta_despachos/autoparametros');?>",
+    data:{
+        opcion:opcion,
+        parametro:$(this).val(),
+},
+    beforeSend: function(){
+            $("#parametro").css("background","#FFF url(images/cargando.gif) no-repeat 150px");
     },
-            beforeSend: function(){
-                    $("#parametro").css("background","#FFF url(images/cargando.gif) no-repeat 150px");
-            },
-            success: function(data){
-                    $("#suggesstion-box").show();
-                    $("#suggesstion-box").html(data);
-                    $("#parametro").css("background","#FFF");
-            }
-            });
-            }
-            }else{
-                //alert('Sele');
-                $( "#opcion" ).focus().select();
-            }
+    success: function(data){
+            $("#suggesstion-box").show();
+            $("#suggesstion-box").html(data);
+            $("#parametro").css("background","#FFF");
+    }
     });
+    }
+    }else{
+        //alert('Sele');
+        $( "#opcion" ).focus().select();
+    }
+});
     
-    $("#opcion").change(function(){
+$("#opcion").change(function(){
     $("#parametro").val('');
     $("#resultado").hide();
     $("#suggesstion-box").hide();
+    //buscar();
     });
-    
+   
+$('#example').dataTable( {
+		"bProcessing": true,
+		"bServerSide": true,
+                "responsive": true,
+                "scrollY": 450,
+                "order": [[ 2, "asc" ]],
+                "iDisplayLength":25,
+                "language": {
+                "lengthMenu": " _MENU_ registros por página",
+                "zeroRecords": "No se encontrarón registros",
+                "info": "Mostrando la página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay registros disponibles",
+                "infoFiltered": "(filtrado desde _MAX_ total registros)",
+                "search":         "Búsqueda",
+                "bProcessing": "Procesando",
+                },
+		"sAjaxSource": "<?php  echo base_url('consulta_despachos/datatables');?>",
+                "fnServerData": function ( sSource, aoData, fnCallback ) {
+                aoData.push( {"name": "opcion", "value": $('#opcion').val()} );
+                aoData.push( {"name": "parametro", "value": $('#parametro').val()} );
+                $.getJSON( sSource, aoData, function (json) {
+                fnCallback(json)
+                } );
+                },
+                        
+	} );   
+        
+$('#buscar').click( function () {
+    oTable = $('#example').dataTable();
+    oTable.fnDraw();
+} );        
 });
-//To select country name
-function selectCountry(val) {
+function buscar(){
+    oTable = $('#example').dataTable();
+    oTable.fnDraw();
+}
+//Select Opcion
+function selectOpcion(val) {
     $("#parametro").val(val);
     $("#suggesstion-box").hide();
-}
+    }
 
 function salir(){
- window.location.href = "<?php  echo base_url('sesion/logout');?>";
-}
+    window.location.href = "<?php  echo base_url('sesion/logout');?>";
+    }
 </script>
-
 </head>
 
-<body class="dt-example">
-    <div class="container">
-        <div class="row">
-            <label class="col-sm-2 control-label" for="opcion">Opciones de Búsqueda</label>
-            <div class="col-sm-6">
+<body>
+        <div class="row success">
+             <form class="form-horizontal" role="form" id="form" name="form" action="<?=base_url()?>producto/guardar" method="POST">
+            <div class="form-group col-lg-4">
                 <select class="form-control" id="opcion" name='opcion' >
-                    <option value='0' selected>---Seleccione Opción---</option>
+                    <option value='0' >---Seleccione Opción---</option>
                     <option value='5' >Planta de Distribución</option>
                     <option value='1' >Estación de Servicio</option>
                     <option value='2' >Documento Transporte SAP</option>
@@ -128,27 +120,44 @@ function salir(){
                     <option value='6' >Placa Chuto</option>
                     
                 </select>
+                
             </div>
-            <div class="col-sm-4">
-                <button type="button" class="btn btn-success"  onclick="consulta()">
-                <span class="glyphicon glyphicon-search col-sm-6" aria-hidden="true"></span> Buscar</button>
+           
+            <div class="form-group col-lg-4">
+                <input type="text" id="parametro" name='parametro' value="" class="form-control" placeholder="Escriba parametro de búsqueda para esta opción">
+                <div id="suggesstion-box" style="position:absolute; z-index:1;"></div>
             </div>
-        </div>
-        <div class="row" style="margin-top: 0.5em">
+             
             
-            <label class="col-lg-2 control-label" for="parametro">Elemento a Buscar</label>
-            <div class="col-sm-6">
-                <input type="text" id="parametro" name='parametro'  class="form-control" placeholder="Parametro de búsqueda - Use asterisco * para completar">
-                <div id="suggesstion-box"></div>
+            <div class="form-group col-lg-4">
+                <button type="button" id="buscar" class="btn btn-primary">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar</button>
+                
             </div>
+            </form>
             
-        </div>
-        <div id="resultado" class="row col-md-12" style="margin-top: 0.5em; display: none"></div>
-        <br>
-        <div id="cargando" class="body" style="display: none">
-            <img src="<?php echo base_url('images/cargando.gif');?>">
-        </div>
-            
+</div>
+        <div class="row">
+            <div class="">
+                <table id="example" class="display nowrap compact" cellspacing="0" width="90%">
+                    <thead>
+                        <tr>
+                        <th>Planta</th>
+                        <th>Cliente</th>
+                        <th>Documento Transporte</th>
+                        <th>Estatus Desapacho</th>
+                        <th>Fecha Salida Llenado</th>
+                        <th>Placa Cisterna</th>
+                        <th>Placa Chuto</th>                        
+                        <th>Cedula Conductor</th>
+                        <th>Nombre Conductor</th>
+                        <th>Código SAP cliente</th>			
+                        <th>RIF cliente</th>			
+                        <th>Fecha Programada</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
          
     

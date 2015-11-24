@@ -13,9 +13,32 @@
 $(document).ready(function() {
 	
         setTimeout(function(){location.reload(); }, 60000);//120000=2min
+        
+        
+        
+        
 } );
 
-
+function detalle(id){
+    
+    
+    //$('#exampleModal').modal('show');
+    var data = $.parseJSON($('#'+id).val());
+    var body = '';
+    $.each( data, function( key, val ) {
+    
+    
+    body+="<li id='" + key + "'>"+ key +": "+ val + "</li>";
+    
+    //alert(key+': '+val);
+  });
+  
+  $('.modal-body').html( body);
+    $('#exampleModal').modal('show');
+    
+    
+    
+}
 
 	</script>
 
@@ -50,6 +73,7 @@ $(document).ready(function() {
                            
                             $i=0;
                             $fila="";
+                            $array = array();
                             foreach($resultado as $dato){
                                 $i++;
                                 if($dato['velocidad']<=50){
@@ -62,6 +86,8 @@ $(document).ready(function() {
                                     $class = "success";
                                     $icon = "ok";
                                 }
+                                
+                                
                                 $fila.="
                                 <tr >
                                     <th scope='row'>$i</th>
@@ -70,13 +96,13 @@ $(document).ready(function() {
                                     <td>".$dato['actual']."</td>
                                     <td>".$dato['historico']."</td>
                                     <td>
-                                    <a class='label label-".$class."' href='#'>
+                                    <a class='label label-".$class."' onclick='detalle($i)'>
                                         <span class='glyphicon glyphicon-$icon'></span>
                                     </a>
                                     </td>
                                 </tr>";
-                        
-                        
+                                $value = json_encode($dato, JSON_NUMERIC_CHECK);
+                                echo "<input type='hidden' id='$i' value='".$value."'/>";
                             }
                             echo $fila;
                             ?>
@@ -85,7 +111,31 @@ $(document).ready(function() {
       </tbody>
       
     </table>
-            
+    
+                    
+                    
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+                    
+                    
+                    
 	</div>
 </body>
 </html>

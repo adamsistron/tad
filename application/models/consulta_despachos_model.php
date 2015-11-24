@@ -72,6 +72,82 @@ class Consulta_Despachos_Model extends CI_Model {
             return($data);
                 
     }
+    function datos_tabla($opcion, $parametro)
+    {
+
+        $db=$this->load->database('scli',TRUE);
+        
+            if($opcion==0){
+                $condicion="";
+            }
+            if($opcion==1){
+                $condicion="WHERE UPPER(nombre_cliente) LIKE '$parametro'";
+            }
+            if($opcion==2){
+                $condicion="WHERE UPPER(codigo_sap_despacho) LIKE '$parametro'";
+            }
+            if($opcion==3){
+                $condicion="WHERE UPPER(cedula_conductor) LIKE '$parametro'";
+            }
+            if($opcion==4){
+                $condicion="WHERE UPPER(placa_cisterna) LIKE '$parametro'";
+            }
+            if($opcion==5){
+                $condicion="WHERE UPPER(pd) LIKE '$parametro'";
+            }
+            if($opcion==6){
+                $condicion="WHERE UPPER(placa_chuto) LIKE '$parametro'";
+            }
+            
+            $sql="SELECT 
+                    substr(pd,14) as pd, codigo_sap_despacho, placa_cisterna, placa_chuto, 
+                    cedula_conductor, nombre_conductor, rif_cliente, codigo_sap_cliente, 
+                    nombre_cliente, volumen_programado, volumen_bruto_despachado, 
+                    estatus_despacho, producto, date(fecha_programada) as fecha_programada, fecha_salida_llenado,  created
+                  FROM ds_despachos_sie_mena
+                  $condicion order by fecha_programada DESC, fecha_salida_llenado DESC
+                  ;";
+            
+            $indicador = $this->session->userdata('indicador_usuario');
+            $insert = "INSERT INTO store_consulta_despachos(opcion, parametro, indicador) VALUES ($opcion, '$parametro', '$indicador');";
+            $db->query($insert);
+            
+            $q = $db->query($sql);
+/*
+            $data=array();
+		foreach ($q->result_array() as $row){
+			$data[] = $row;
+
+		}
+		$q->free_result();
+		$db->close();
+		return($data);*/
+            
+            $i = 0;
+        foreach ($q->result_array() as $row)
+        {
+           $data[$i] = array(
+               $row['pd'],
+               $row['codigo_sap_despacho'],
+               $row['placa_cisterna'],
+               $row['placa_chuto'],
+               $row['cedula_conductor'],
+               $row['nombre_conductor'],
+               $row['rif_cliente'],
+               $row['codigo_sap_cliente'],
+               $row['nombre_cliente'],
+               $row['volumen_programado'],
+               $row['volumen_bruto_despachado'],
+               $row['estatus_despacho'],
+               $row['producto'],
+               $row['fecha_programada'],
+               $row['fecha_salida_llenado'],
+                   );
+           $i++;
+        }
+        return $data;
+                
+    }
     function consultas($opcion='*', $parametro='*')
     {
 
@@ -214,7 +290,9 @@ if (empty($opcion)){
                   FROM ds_despachos_sie_mena
                   $condicion order by fecha_programada DESC, fecha_salida_llenado DESC
                   ;";
-            $insert = "INSERT INTO store_consulta_despachos(opcion, parametro) VALUES ($opcion, '$parametro');";
+            
+            $indicador = $this->session->userdata('indicador_usuario');
+            $insert = "INSERT INTO store_consulta_despachos(opcion, parametro, indicador) VALUES ($opcion, '$parametro', '$indicador');";
             $db->query($insert);
             //echo $sql;die();
             

@@ -767,6 +767,9 @@ $(function () {
                 <script type="text/javascript" src="<?php echo base_url('Highcharts-4.0.4/js/modules/exporting.js');?>"></script>
                 <script type="text/javascript" src="<?php echo base_url('Highcharts-4.0.4/js/modules/solid-gauge.src.js');?>"></script>
 <?php if($dispositivo == 1 || $dispositivo == 2){?>
+                
+                
+                
 <table style="margin:auto; width:100%; height: 30%" cellpadding="0" cellspacing="0" border="0" >
                     <tbody>
                         <tr>

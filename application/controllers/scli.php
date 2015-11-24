@@ -30,6 +30,16 @@ class scli extends CI_Controller {
             
             $this->load->view('output.php',$output);
 	}
+        public function datatables()
+	{
+            
+            $this->datatables->set_database('scli');
+            $this->datatables->select('id_store_consulta_despachos, opcion, parametro, indicador');
+            $this->datatables->from('store_consulta_despachos');
+            $results = $this->datatables->generate('json', 'ISO-8859-1');
+
+            print_r($results);
+	}
         
         public function scli_1()
 	{
