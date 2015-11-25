@@ -107,9 +107,8 @@ function salir(){
 </head>
 
 <body>
-        <div class="row success">
-             <form class="form-horizontal" role="form" id="form" name="form" action="<?=base_url()?>producto/guardar" method="POST">
-            <div class="form-group col-lg-4">
+    <div class="row" style="margin-bottom: 10px">
+            <div class="col-md-4">
                 <select class="form-control" id="opcion" name='opcion' >
                     <option value='0' >---Seleccione Opción---</option>
                     <option value='5' >Planta de Distribución</option>
@@ -118,27 +117,23 @@ function salir(){
                     <option value='3' >Cédula de Conductor</option>
                     <option value='4' >Placa Cisterna</option>
                     <option value='6' >Placa Chuto</option>
-                    
                 </select>
-                
             </div>
+            <div class="col-md-4">   
+                
            
-            <div class="form-group col-lg-4">
                 <input type="text" id="parametro" name='parametro' value="" class="form-control" placeholder="Escriba parametro de búsqueda para esta opción">
                 <div id="suggesstion-box" style="position:absolute; z-index:1;"></div>
-            </div>
-             
+             </div>
+            <div class="col-md-">   
             
-            <div class="form-group col-lg-4">
                 <button type="button" id="buscar" class="btn btn-primary">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar</button>
-                
-            </div>
-            </form>
+             </div>   
             
 </div>
         <div class="row">
-            <div class="">
+            <div class="col-md-12">
                 <table id="example" class="display nowrap compact" cellspacing="0" width="90%">
                     <thead>
                         <tr>
