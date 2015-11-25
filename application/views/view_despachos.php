@@ -103,6 +103,28 @@ function selectOpcion(val) {
 function salir(){
     window.location.href = "<?php  echo base_url('sesion/logout');?>";
     }
+    
+    function detalle(codigo){
+        $.ajax({
+            type: "POST",
+            url: "<?php  echo base_url('consulta_despachos/detalle_codigo');?>",
+            data:{
+                codigo:codigo,
+    },
+            /*beforeSend: function(){
+                $("#parametro").css("background","#FFF url(images/cargando.gif) no-repeat 150px");
+    },*/
+            success: function(data){
+                $('#exampleModalLabel').html("Documento de Transporte (SAP) #"+codigo);
+                
+                $('.modal-body').html(data);
+                $('#exampleModal').modal('show');
+    }
+    });
+    
+    
+    
+}
 </script>
 </head>
 
@@ -154,7 +176,23 @@ function salir(){
                 </table>
             </div>
         </div>
-         
+         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
     
 </body>
 </html>

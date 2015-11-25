@@ -19,21 +19,18 @@ $(document).ready(function() {
         
 } );
 
-function detalle(id){
+function detalle(id, pd){
     
     
     //$('#exampleModal').modal('show');
     var data = $.parseJSON($('#'+id).val());
-    var body = '';
+    var body = '<ul class="list-group">';
     $.each( data, function( key, val ) {
-    
-    
-    body+="<li id='" + key + "'>"+ key +": "+ val + "</li>";
-    
-    //alert(key+': '+val);
-  });
-  
+        body+="<li class='list-group-item' id='" + key + "'>"+ key.toUpperCase() +":  <span class='badge'>"+ val + "</span></li>";
+    });
+  body+="</ul>";
   $('.modal-body').html( body);
+  $('#exampleModalLabel').html(pd);
     $('#exampleModal').modal('show');
     
     
@@ -86,7 +83,7 @@ function detalle(id){
                                     $class = "success";
                                     $icon = "ok";
                                 }
-                                
+                                $pd = '"'.$dato['pd'].'"';
                                 
                                 $fila.="
                                 <tr >
@@ -96,7 +93,7 @@ function detalle(id){
                                     <td>".$dato['actual']."</td>
                                     <td>".$dato['historico']."</td>
                                     <td>
-                                    <a class='label label-".$class."' onclick='detalle($i)'>
+                                    <a class='label label-".$class."' onclick='detalle($i,$pd)'>
                                         <span class='glyphicon glyphicon-$icon'></span>
                                     </a>
                                     </td>

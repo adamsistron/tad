@@ -295,10 +295,10 @@ class Consulta_Despachos extends CI_Controller {
 		$row = array();
 		for ( $i=0 ; $i<count($aColumns) ; $i++ )
 		{
-			if ( $aColumns[$i] == "version" )
+			if ( $aColumns[$i] == "codigo_sap_despacho" )
 			{
 				/* Special output formatting for 'version' column */
-				$row[] = ($aRow[ $aColumns[$i] ]=="0") ? '-' : $aRow[ $aColumns[$i] ];
+				$row[] = "<a onclick='detalle(".$aRow[ $aColumns[$i] ].")'>".$aRow[ $aColumns[$i] ]."</a>";
 			}
 			else if ( $aColumns[$i] != ' ' )
 			{
@@ -310,8 +310,55 @@ class Consulta_Despachos extends CI_Controller {
 	}
          }
             }
+            
+        //$rResult->free_result();
+	//$db->close();
 	echo json_encode( $output );
         }
+        
+        public function detalle_codigo(){
+		$codigo=$this->input->post('codigo');
+                
+                $sql = "SELECT  producto, volumen_programado, volumen_bruto_despachado
+                    FROM ds_despachos_sie_mena WHERE codigo_sap_despacho = '$codigo' order by producto";
+                
+                //echo $sql;die();
+                $db=$this->load->database('scli',TRUE);
+                $q = $db->query($sql);
+            //print_r($q);die();
+            $data=array();
+		foreach ($q->result_array() as $row){
+			$data[] = $row;
+
+		}
+		$q->free_result();
+		$db->close();
+                //print_r($data);die();
+		//return($data);
+                $fila = "<ul class='list-group'>";
+                foreach($data as $dato){
+                                
+                    $diferencia = $dato['volumen_bruto_despachado']-$dato['volumen_programado'];
+                    if($diferencia<0){
+                        $class = "warning";
+                        $signo = "";
+                    }else{
+                        $class = "success";
+                        $signo = "+";
+                    }
+                                
+                                $pd = '"'.$dato['producto'].'"';
+                                
+                                $fila.="<li class='list-group-item'>".$dato['producto'].""
+                                        . " <span class='label label-info'>Programado: ".$dato['volumen_programado']." (Lts.)</span>"
+                                        . " <span class='label label-success'>Despachado: ".$dato['volumen_bruto_despachado']." (Lts.)</span>"
+                                        . " <span class='label label-$class'> Diferencia: $signo".$diferencia."</span></li>";
+                                
+                            }
+                            $fila.="</ul>";
+                            echo $fila;
+	}
+        
         //****************************************************************************
         //****************************************************************************
         public function stock($tipo){
