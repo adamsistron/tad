@@ -21,7 +21,7 @@ $rol = $this->session->userdata('id_rol');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/ico" href="<?php echo base_url('images/pdvsa.ico');?>">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>TAD | Técnicas de Análisis de Datos</title>
+    <title>SIEPCP | Sistema de Información Estratégica de PCP</title>
 
     <!-- Bootstrap -->
     
