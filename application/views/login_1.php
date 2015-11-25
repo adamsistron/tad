@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/ico" href="<?php echo base_url('images/pdvsa.ico');?>">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Inicio Sesi&oacute;n - TAD</title>
+    <title>Inicio Sesi&oacute;n - SIEPCP</title>
 
     <!-- Bootstrap -->
     <link href="<?php echo base_url("css/bootstrap.min.css");?>" rel="stylesheet">

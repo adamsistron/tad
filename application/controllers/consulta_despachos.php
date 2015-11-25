@@ -277,7 +277,7 @@ class Consulta_Despachos extends CI_Controller {
         
                
 	//$iFilteredTotal = round(($iTotal/$_GET['iDisplayLength']), 0, PHP_ROUND_HALF_UP);
-	$iFilteredTotal = $iTotal*$_GET['iDisplayLength']-$_GET['iDisplayLength'];
+	$iFilteredTotal = $iTotal+1;
 //echo $iFilteredTotal;die();
 	
 	/*
