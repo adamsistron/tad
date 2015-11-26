@@ -262,7 +262,7 @@ class Consulta_Despachos extends CI_Controller {
 		$sOrder
 		$sLimit
 	";
-//echo $sQuery;die();
+        //echo $sQuery;die();
 	$rResult = $db->query($sQuery);
 
 	/* Total data set length */
@@ -275,10 +275,7 @@ class Consulta_Despachos extends CI_Controller {
         $row = $rResultTotal->row(); 
 	$iTotal = $row->count;
         
-               
-	//$iFilteredTotal = round(($iTotal/$_GET['iDisplayLength']), 0, PHP_ROUND_HALF_UP);
 	$iFilteredTotal = $iTotal+1;
-//echo $iFilteredTotal;die();
 	
 	/*
 	 * Output
@@ -336,23 +333,31 @@ class Consulta_Despachos extends CI_Controller {
                 //print_r($data);die();
 		//return($data);
                 $fila = "<ul class='list-group'>";
+                $i=0;
                 foreach($data as $dato){
-                                
+                      $i++;          
                     $diferencia = $dato['volumen_bruto_despachado']-$dato['volumen_programado'];
-                    if($diferencia<0){
+                    $indice = $dato['volumen_bruto_despachado']/$dato['volumen_programado'];
+                    if($indice<0.75){
+                        $class = "danger";
+                        
+                    }elseif($indice>=0.75 && $indice<0.9){
                         $class = "warning";
-                        $signo = "";
-                    }else{
+                        
+                    }elseif($indice>=0.9){
                         $class = "success";
-                        $signo = "+";
                     }
                                 
                                 $pd = '"'.$dato['producto'].'"';
                                 
-                                $fila.="<li class='list-group-item'>".$dato['producto'].""
-                                        . " <span class='label label-info'>Programado: ".$dato['volumen_programado']." (Lts.)</span>"
-                                        . " <span class='label label-success'>Despachado: ".$dato['volumen_bruto_despachado']." (Lts.)</span>"
-                                        . " <span class='label label-$class'> Diferencia: $signo".$diferencia."</span></li>";
+                    $fila.="<li class='list-group-item'>"
+                            . "<div class='row'>"
+                            . "<div class='col-md-3'>C$i ".$dato['producto']."</div>"
+                            . "<div class='col-md-3'><span class='label label-info'>Programado: ".$dato['volumen_programado']." (Lts.)</span></div>"
+                            . "<div class='col-md-3'><span class='label label-primary'>Despachado: ".$dato['volumen_bruto_despachado']." (Lts.)</span></div>"
+                            . "<div class='col-md-3'><span class='label label-$class'> Diferencia: ".$diferencia."</span></div>"
+                            . "</div>"
+                            . "</li>";
                                 
                             }
                             $fila.="</ul>";

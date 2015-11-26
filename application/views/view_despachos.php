@@ -130,7 +130,7 @@ function salir(){
 
 <body>
     <div class="row" style="margin-bottom: 10px">
-            <div class="col-md-4">
+            <div class="col-md-4 col-md-offset-1">
                 <select class="form-control" id="opcion" name='opcion' >
                     <option value='0' >---Seleccione Opción---</option>
                     <option value='5' >Planta de Distribución</option>
@@ -155,7 +155,7 @@ function salir(){
             
 </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10 col-md-offset-1">
                 <table id="example" class="display nowrap compact" cellspacing="0" width="90%">
                     <thead>
                         <tr>
