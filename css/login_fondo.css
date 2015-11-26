@@ -1,0 +1,8 @@
+body{
+    background: url(../images/login-crystal-bg.jpeg) no-repeat;
+    background-color: white;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    //background: url(http://mymaplist.com/img/parallax/pinlayer2.png),url(http://mymaplist.com/img/parallax/pinlayer1.png),url(http://mymaplist.com/img/parallax/back.png);    
+}

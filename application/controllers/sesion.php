@@ -15,13 +15,13 @@ class Sesion extends CI_Controller {
 		
 		//echo "sss";die();
 		
-		$this->load->view('login_1.php');
+		$this->load->view('login_form.php');
 	}
 	public function inicio()
 	{
 		
 		//echo "sss";die();
-		$this->load->view('login_1.php');
+		$this->load->view('login_form.php');
 	}
 
 //Funcion: Devuelve Arreglo de Información de un usuario en un directorio de activos a traves de su cedula

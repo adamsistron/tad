@@ -131,7 +131,7 @@ function salir(){
 <body>
     <div class="row" style="margin-bottom: 10px">
             <div class="col-md-4 col-md-offset-1">
-                <select class="form-control" id="opcion" name='opcion' >
+                <select class="form-control" id="opcion" name='opcion' required autofocus>
                     <option value='0' >---Seleccione Opción---</option>
                     <option value='5' >Planta de Distribución</option>
                     <option value='1' >Estación de Servicio</option>
