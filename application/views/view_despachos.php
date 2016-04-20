@@ -10,6 +10,7 @@
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('DataTables-1.10.4/examples/resources/syntax/shCore.css');?>">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('DataTables-1.10.4/examples/resources/demo.css');?>">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/css/dataTables.responsive.css');?>">
+	<link rel="stylesheet" type="text/css" href="https://datatables.net/release-datatables/extensions/TableTools/css/dataTables.tableTools.css">
 
         
         <script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/media/js/jquery.js');?>"></script>
@@ -17,6 +18,7 @@
 	<script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/examples/resources/syntax/shCore.js');?>"></script>
         <!--<script type="text/javascript" language="javascript" src="<?php echo base_url('DataTables-1.10.4/examples/resources/demo.js');?>"></script>-->
         <script type="text/javascript" language="javascript" src="<?php echo base_url('/js/dataTables.responsive.js');?>"></script>
+        <script type="text/javascript" language="javascript" src="https://datatables.net/release-datatables/extensions/TableTools/js/dataTables.tableTools.js"></script>
        
         <script type="text/javascript">
 
@@ -55,10 +57,22 @@ $("#opcion").change(function(){
     $("#parametro").val('');
     $("#resultado").hide();
     $("#suggesstion-box").hide();
-    //buscar();
+    var opcion = $(this).val();
+    if(opcion==7){
+        $("#parametro").attr('readonly','readonly');
+        $("#parametro").attr('placeholder','...');
+    }else{
+       $("#parametro").removeAttr('readonly'); 
+       $("#parametro").attr('placeholder','Escriba parametro de búsqueda para esta opción');
+
+    }
     });
    
-$('#example').dataTable( {
+var table = $('#example').dataTable( {
+/*dom: 'T<"clear">lfrtip',
+        tableTools: {
+            "sSwfPath": "../swf/copy_csv_xls_pdf.swf"
+        },*/
 		"bProcessing": true,
 		"bServerSide": true,
                 "responsive": true,
@@ -83,7 +97,19 @@ $('#example').dataTable( {
                 } );
                 },
                         
-	} );   
+	} );  
+
+var tableTools = new $.fn.dataTable.TableTools( table, {
+        "buttons": [
+            "copy",
+            "csv",
+            "xls",
+            "pdf",
+            { "type": "print", "buttonText": "Print me!" }
+        ]
+    } );
+      
+    $( tableTools.fnContainer() ).insertAfter('div.info');
         
 $('#buscar').click( function () {
     oTable = $('#example').dataTable();
@@ -134,11 +160,13 @@ function salir(){
                 <select class="form-control" id="opcion" name='opcion' required autofocus>
                     <option value='0' >---Seleccione Opción---</option>
                     <option value='5' >Planta de Distribución</option>
-                    <option value='1' >Estación de Servicio</option>
+                    <option value='8' >Código SAP Cliente</option>
+                    <option value='1' >Nombre Cliente</option>
                     <option value='2' >Documento Transporte SAP</option>
                     <option value='3' >Cédula de Conductor</option>
                     <option value='4' >Placa Cisterna</option>
                     <option value='6' >Placa Chuto</option>
+                    <option value='7' >Todos</option>
                 </select>
             </div>
             <div class="col-md-4">   

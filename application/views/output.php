@@ -41,7 +41,7 @@ $rol = $this->session->userdata('id_rol');
         ?>
   </head>
   <body>
-      <nav class="navbar navbar-default">
+      <!--nav class="navbar navbar-default">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -59,7 +59,7 @@ $rol = $this->session->userdata('id_rol');
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
 <!--        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-        <?php if (in_array("1", $rol)) {?>
+        <?php if (/*in_array("1", $rol)*/true) {?>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SCLi<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -71,10 +71,10 @@ $rol = $this->session->userdata('id_rol');
           </ul>
         </li>
         <?php }?>
-        <?php if (in_array("2", $rol)) {?>
+        <?php if (/*in_array("2", $rol)*/true) {?>
         <li id="sisccombf"><a href="<?php echo site_url('sisccombf/eess')?>">SISCCOMBF</a></li>
         <?php }?>
-        <?php if (in_array("3", $rol)) {?>
+        <?php if (/*in_array("3", $rol)*/true) {?>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SIEV<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -86,7 +86,7 @@ $rol = $this->session->userdata('id_rol');
           </ul>
         </li>
         <?php }?>
-        <?php if (in_array("4", $rol)) {?>
+        <?php if (/*in_array("4", $rol)*/true) {?>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SSPO<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -96,7 +96,7 @@ $rol = $this->session->userdata('id_rol');
           </ul>
         </li>
         <?php }?>
-        <?php if (in_array("5", $rol)) {?>
+        <?php if (/*in_array("5", $rol)*/true) {?>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">SERPCP<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
@@ -118,7 +118,7 @@ $rol = $this->session->userdata('id_rol');
             </li>
       </ul>
     </div><!-- /.navbar-collapse -->
-           </nav>
+           </nav-->
 
       <div class="container-fluid" style="height: complex">
         <?php 

@@ -64,6 +64,8 @@ class scli extends CI_Controller {
 	}
 public function scli_2()
 	{
+    
+    if(false){
           $planta=$this->input->post('planta');  
             $db=$this->load->database('scli',TRUE);           
             
@@ -271,9 +273,17 @@ if($jet>0 && $jet <> ""){
 }else{
     $jet = 0;
 }
-
+    }
+    
+    $velocidad = rand(50, 100);
+    $avance_historico = rand(50, 100);
+    $avance_programado = rand(50, 100);
+    $diesel = rand(50, 100);
+    $g91 = rand(50, 100);
                  
-            echo "$velocidad*$avance_historico*$avance_programado*$diesel*$g91*$g95*$jet*$av_gas*$fuel_oil*$insoil*$kerosene*$autorizado*$en_despacho*$env_scli*$desp_env*$anu_fac*$historico*$despachado";
+            echo "$velocidad*$avance_historico*$avance_programado*$diesel*$g91*95*50*60*70*80*85*5*5*5*75*10*100*90";
+            //echo "$velocidad*$avance_historico*$avance_programado*$diesel*$g91*$g95*$jet*$av_gas*$fuel_oil*$insoil*$kerosene*$autorizado*$en_despacho*$env_scli*$desp_env*$anu_fac*$historico*$despachado";
+            //echo "$velocidad*$avance_historico*$avance_programado*$diesel*$g91*$g95*$jet*$av_gas*$fuel_oil*$insoil*$kerosene*$autorizado*$en_despacho*$env_scli*$desp_env*$anu_fac*$historico*$despachado";
             
             
                    

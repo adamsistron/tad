@@ -55,8 +55,10 @@ class Consulta_Despachos extends CI_Controller {
                 break;
                 case 3:
                 $opcion_v = "cedula_conductor";
+                case 8:
+                $opcion_v = "codigo_sap_cliente";
                 break;
-                    case 4:
+                case 4:
                 $opcion_v = "placa_cisterna";
                 break;
                         case 5:
@@ -141,9 +143,9 @@ class Consulta_Despachos extends CI_Controller {
             
             $parametro=$this->input->get('parametro');
             
+            $consultar = ($opcion==8 && $parametro=='') ? true:false;
             
-            
-            if( $opcion==0 || $parametro==''){
+            if( $opcion==0 || $consultar){
                 $output = array(
 		"sEcho" => intval($_GET['sEcho']),
 		"iTotalRecords" => 0,
@@ -235,10 +237,10 @@ class Consulta_Despachos extends CI_Controller {
 	}
 	
         //PARAMETRO ADICIONAL ENVIADO POR POST
-        $columPost = array('','nombre_cliente', 'codigo_sap_despacho','cedula_conductor','placa_cisterna','pd', 'placa_chuto');
+        $columPost = array('','nombre_cliente', 'codigo_sap_despacho','cedula_conductor','placa_cisterna','pd', 'placa_chuto','','codigo_sap_cliente');
                     
         //echo $columPost[$opcion];die();
-        
+        if($columPost[$opcion]<>''){
         if ( $sWhere == "" )
 			{
 				$sWhere = "WHERE ";
@@ -248,7 +250,7 @@ class Consulta_Despachos extends CI_Controller {
 				$sWhere .= " AND ";
 			}
 			$sWhere .= " UPPER(".$columPost[$opcion]."::text) LIKE UPPER('%".$parametro."%') ";
-	
+        }
 	/*
 	 * SQL queries
 	 * Get data to display

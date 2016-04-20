@@ -15,13 +15,13 @@ class Sesion extends CI_Controller {
 		
 		//echo "sss";die();
 		
-		$this->load->view('login_form.php');
+		$this->load->view('login_1.php');
 	}
 	public function inicio()
 	{
 		
 		//echo "sss";die();
-		$this->load->view('login_form.php');
+		$this->load->view('login_1.php');
 	}
 
 //Funcion: Devuelve Arreglo de Información de un usuario en un directorio de activos a traves de su cedula
@@ -70,7 +70,9 @@ function verificar_usuario_c($cedula)
 //Parametro 1: texto indicador
 //Retorna: Arreglo si ubica al usuario, 0 si no lo encuentra
 function verificar_usuario_i($indicador)
-{	
+{
+	
+	
 	//global $SERVIDOR_LDAP, $PUERTO_LDAP;
 	
 	$ldap_server = "167.134.201.179";
@@ -170,30 +172,20 @@ function verificar_usuario_i($indicador)
         $user = trim(strtolower($this->input->post('indicador')));
         $pssw = trim($this->input->post('password'));
         
-        echo "$user - $pssw";
+        //echo "$user - $pssw";
         
-                //$auth_pdvsa=$this->auth_pdvsa($user,$pssw);
-        
-        $newdata = array(
-                        'id_usuario'  => "1",
-                        'indicador_usuario'  => "adamsistron",
-                        'nombre_usuario'  => "Adam Carrillo",
-                        'id_rol'  => 1,
-                        );
-        $this->session->set_userdata($newdata);
-        redirect(base_url('/inicio'), 'refresh');
-                $auth_pdvsa=true;die();
+                $auth_pdvsa=$this->auth_pdvsa($user,$pssw);
                 
                 $this->datos_pdvsa($user,$pssw);
                 //echo $auth_pdvsa; die();
                 //$query_usuario = $this->db->get_where('usuario', array('indicador_usuario' => $user));
                 /***************************************************************************************/
-                $db=$this->load->database('siepcp_usuarios',TRUE);
-                 $sql="SELECT usuarios.id_usuario,usuarios.indicador_usuario, usuarios.nombre_usuario, usuarios.id_rol
+                $db=$this->load->database('siev',TRUE);
+                 $sql="SELECT usuario.id_usuario,usuario.indicador_usuario, usuario.nombre_usuario, usuario.id_rol
                    FROM 
-                    public.usuarios
+                    public.usuario
                   WHERE                     
-                    usuarios.indicador_usuario='$user'
+                    usuario.indicador_usuario='$user'
                    group by id_usuario
                    order by
                     id_usuario
@@ -218,14 +210,16 @@ function verificar_usuario_i($indicador)
                     
                      if($id_usuario<>0){
                         $newdata = array(
-                        'id_usuario'  => $id_usuario,
-                        'indicador_usuario'  => $indicador_usuario,
-                        'nombre_usuario'  => $nombre_usuario,
-                        'id_rol'  => $rol,
+                       'id_usuario'  => $id_usuario,
+                       'indicador_usuario'  => $indicador_usuario,
+                       'nombre_usuario'  => $nombre_usuario,
+                       'id_rol'  => $rol,
+                       
+                                
                         );
 
                         if(!$auth_pdvsa){
-                            echo "<meta charset='utf-8'><script>alert('Indicador y/o Contraseña Incorrecta')</script>";
+                            echo "<script>alert('Indicador y/o Contraseña Incorrecta')</script>";
                             redirect('/', 'refresh');
                         }else{
                             $this->session->set_userdata($newdata);
@@ -233,16 +227,11 @@ function verificar_usuario_i($indicador)
                             //$this->logs($accion='sesion-inicio');
                             $indicador=  strtoupper($user);
                             //echo "<script>alert('Bienvenido $indicador')</script>";
-                            $datos = json_encode($this->session->all_userdata());
-                            $sql = "INSERT INTO sesion_usuarios(
-                                    datos_sesion, accion)
-                                    VALUES ( '$datos', 'login');";
-                            $db->query("$sql");
                             redirect(base_url('/inicio'), 'refresh');
                         } 
                          
                      }else{                        
-                        echo "<meta charset='utf-8'><script>alert('Indicador NO Registrado en el Sistema')</script>";
+                        echo "<script>alert('Indicador NO Registrado en el Sistema')</script>";
                         redirect(base_url(''), 'refresh');
                      }
 
@@ -251,13 +240,6 @@ function verificar_usuario_i($indicador)
 	public function logout()
 	{
             $indicador = strtoupper($this->session->userdata('indicador'));
-            $datos = json_encode($this->session->all_userdata());
-            
-            $db=$this->load->database('siepcp_usuarios',TRUE);
-            $sql = "INSERT INTO sesion_usuarios(
-                                    datos_sesion, accion)
-                                    VALUES ( '$datos', 'logout');";
-            $db->query("$sql");
             $this->session->sess_destroy();
             //echo "<script>alert('Hasta Luego $indicador')</script>";
             redirect(base_url(''), 'refresh');

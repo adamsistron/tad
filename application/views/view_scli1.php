@@ -756,7 +756,7 @@ var planta= $('#planta').val();
 $(function () {
     setInterval(function () {
        planta();
-    }, 180000);   
+    }, 1000);   
 
 });
                 </script>
