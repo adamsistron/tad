@@ -4,3 +4,6 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 # otherwise forward it to index.php
 RewriteRule . index.php
+
+//301 Redirect Entire Directory
+RedirectMatch 301 /var/www/html(.*) /opt/html/$1
